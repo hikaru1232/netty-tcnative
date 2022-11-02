@@ -215,6 +215,16 @@
                             <exec executable="${ninjaExecutable}" failonerror="true" dir="${boringsslBuildDir}" resolveexecutable="true">
                               <arg value="run_tests" />
                             </exec>
+                            <exec executable="./tool/bssl" failonerror="false" dir="${boringsslBuildDir}" outputproperty="boringssl.isfips.result">
+                              <arg value="isfips" />
+                            </exec>
+                            <fail message="The boringssl is not fips">
+                                <condition>
+                                    <not>
+                                        <equals arg1="${boringssl.isfips.result}" arg2="1"/>
+                                    </not>
+                                </condition>
+                            </fail>
                           </then>
                           <else>
                             <exec executable="${ninjaExecutable}" failonerror="true" dir="${boringsslBuildDir}" resolveexecutable="true" />
